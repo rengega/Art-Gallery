@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from artwork.models import Artwork, Artist, Genre
 
 def index(request):
     return render(request, 'core/index.html')   #the vew passes the rendered request to the template
