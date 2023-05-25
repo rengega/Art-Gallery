@@ -4,7 +4,9 @@ from .models import Artwork
 
 def detail(request, pk):
     artwork = get_object_or_404(Artwork, pk=pk)
+    related = Artwork.objects.filter(genre=artwork.genre).exclude(pk=pk)
 
     return render(request, 'artwork/detail.html', {
-        'artwork': artwork
+        'artwork': artwork,
+        'related': related
     })
