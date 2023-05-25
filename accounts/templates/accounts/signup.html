@@ -8,7 +8,10 @@
 
         <form action="." method="post">
             {% csrf_token%}
-
+            <div class="mb-3">
+                <label class="inline-block mb-2">Username</label>
+                {{ form.username }}
+            </div>
             <div class="mb-3">
                 <label class="inline-block mb-2">Name</label>
                 {{ form.name }}
@@ -18,8 +21,8 @@
                 {{ form.surname }}
             </div>
             <div class="mb-3">
-                <label class="inline-block mb-2">Username</label>
-                {{ form.username }}
+                <label class="inline-block mb-2">Birthday</label>
+                {{ form.date_of_birth }}
             </div>
             <div class="mb-3">
                 <label class="inline-block mb-2">Email</label>

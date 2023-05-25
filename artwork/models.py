@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
+from django.conf import settings
 
 class Artist(models.Model):
     name = models.CharField(max_length=255)
@@ -28,7 +29,7 @@ class Artwork(models.Model):
     description = models.TextField(blank=True)
     year = models.IntegerField(validators=[MaxValueValidator(2050)])
     photo = models.ImageField(upload_to='artworks/', blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, )
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, )
 
 
     def __str__(self):
