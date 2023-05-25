@@ -25,7 +25,7 @@
         <a href="#" class="px-6 py-3 text-lg font-semibold bg-stone-400 text-white hover:bg-stone-500">Inbox</a>
         {% else %}
         <a href="{% url 'accounts:signup' %}" class="px-6 py-3 text-lg font-semibold bg-stone-400 text-white hover:bg-stone-500">Sign Up</a>
-        <a href="#" class="px-6 py-3 text-lg font-semibold bg-stone-400 text-white hover:bg-stone-500">Log In</a>
+        <a href="{% url 'accounts:login' %}" class="px-6 py-3 text-lg font-semibold bg-stone-400 text-white hover:bg-stone-500">Log In</a>
         {% endif %}
     </div>
 </nav>
