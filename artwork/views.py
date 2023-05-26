@@ -69,3 +69,32 @@ def all_artworks(request, ):
         return render(request, 'artwork/all_artworks.html', {'artworks': artworks, 'sort_param': sort_param})
     else:
         return redirect('accounts:login')
+
+def artworks_by_artist(request, pk):
+    if request.user.is_authenticated:
+        artist = get_object_or_404(Artist, pk=pk)
+        artworks = Artwork.objects.filter(artist=artist)
+
+        sort_param = request.GET.get('filter', 'name')  # Get the sorting parameter from the URL query string, defaulting to 'name'
+
+        if sort_param == 'name':
+            artworks = Artwork.objects.filter(artist=artist).order_by('title')
+        elif sort_param == '-name':
+            artworks = Artwork.objects.filter(artist=artist).order_by('-title')
+        elif sort_param == 'year':
+            artworks = Artwork.objects.filter(artist=artist).order_by('year')
+        elif sort_param == '-year':
+            artworks = Artwork.objects.filter(artist=artist).order_by('-year')
+        elif sort_param == 'artist':
+            artworks = Artwork.objects.filter(artist=artist).order_by('artist')
+        else:
+            artworks = Artwork.objects.filter(artist=artist)()
+
+        return render(request, 'artwork/all_artworks.html', {'artworks': artworks, 'sort_param': sort_param})
+
+        return render(request, 'artwork/all_artworks.html', {
+            'artworks': artworks,
+            'artist': artist
+        })
+    else:
+        return redirect('accounts:login')

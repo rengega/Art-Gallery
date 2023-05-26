@@ -42,7 +42,9 @@
       </div>
       {% endfor %}
     </div>
-
+    <div class="flex justify-center mt-12">
+      <a href="{% url 'artwork:artworks_by_artist' artist.id %}" class="py-4 px-8 text-lg bg-stone-400 text-white hover:bg-stone-500">See all</a>
+    </div>
   </div>
 {% endif %}
 
