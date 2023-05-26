@@ -14,6 +14,7 @@ def detail(request, pk):
 
 def artist(request, pk):
     artist = get_object_or_404(Artist, pk=pk)
+    artworks = Artwork.objects.filter(artist=artist) [0:8]
 
     birth_year = artist.date_of_birth.year
     start_date = date(birth_year - 50, 1, 1)
@@ -25,7 +26,8 @@ def artist(request, pk):
 
     return render(request, 'artwork/artist.html', {
         'artist': artist,
-        'related': related
+        'related': related,
+        'artworks': artworks
     })
 
 def all_artists(request):
