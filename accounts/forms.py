@@ -34,7 +34,7 @@ class SignupForm(UserCreationForm):
         }))
 
     date_of_birth = forms.CharField(widget = forms.DateInput( attrs = {
-                'placeholder': 'Your username',
+                'placeholder': 'Your birthday',
                 'class': 'w-full py-4 px-6 rounded-xl'
         }))
 
