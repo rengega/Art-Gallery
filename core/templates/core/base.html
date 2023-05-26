@@ -11,14 +11,20 @@
 <body>
 
 <nav class="px-6 py-6 flex justify-between items-center  bg-stone-100 border-b border-gray-200">
-    <a href="/" class="text-xl font-bold font-montserrat w-10 h-10">
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+    <div class="flex justify-between items-center">
+        <a href="/" class="text-xl font-bold font-montserrat w-10 h-10">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
-            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
-                <path d="M0 2560 l0 -2560 2560 0 2560 0 0 2560 0 2560 -2560 0 -2560 0 0 -2560z m1610 1755 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z m1600 -550 l0 -1055 -650 0 -650 0 0 1055 0 1055 650 0 650 0 0 -1055z m1610 -550 l0 -1605 -655 0 -655 0 0 1605 0 1605 655 0 655 0 0 -1605z m-3210 -655 l0 -950 -655 0 -655 0 0 950 0 950 655 0 655 0 0 -950z m1600 -1205 l0 -1055 -650 0 -650 0 0 1055 0 1055 650 0 650 0 0 -1055z m-1600 -550 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z m3210 0 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z"/>
-            </g>
-        </svg>
-    </a>
+                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                    <path d="M0 2560 l0 -2560 2560 0 2560 0 0 2560 0 2560 -2560 0 -2560 0 0 -2560z m1610 1755 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z m1600 -550 l0 -1055 -650 0 -650 0 0 1055 0 1055 650 0 650 0 0 -1055z m1610 -550 l0 -1605 -655 0 -655 0 0 1605 0 1605 655 0 655 0 0 -1605z m-3210 -655 l0 -950 -655 0 -655 0 0 950 0 950 655 0 655 0 0 -950z m1600 -1205 l0 -1055 -650 0 -650 0 0 1055 0 1055 650 0 650 0 0 -1055z m-1600 -550 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z m3210 0 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z"/>
+                </g>
+            </svg>
+        </a>
+        <div class="ml-20 space-x-10">
+            <a href="{% url 'artwork:all_artworks' %}" class="text-lg font-semibold hover:text-gray-500">Artworks</a>
+            <a href="{% url 'artwork:all_artists' %}" class="text-lg font-semibold hover:text-gray-500">Artists</a>
+        </div>
+    </div>
     <div class="space-x-6">
         <a href="#" class="text-lg font-semibold hover:text-gray-500">New Item</a>
         <a href="#" class="text-lg font-semibold hover:text-gray-500">Browse</a>

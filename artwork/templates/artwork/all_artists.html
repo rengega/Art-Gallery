@@ -11,10 +11,10 @@
           <div>
             <select name="filter" id="">
               <option value="" disabled selected>Sort by</option>
-              <option value="name">Name Ascending</option>
-              <option value="-name">Name Descending</option>
-              <option value="birthday">Birthday Ascending</option>
-              <option value="-birthday">Birthday Descending</option>
+              <option value="name">Name Asc</option>
+              <option value="-name">Name Desc</option>
+              <option value="birthday">Birthday Asc</option>
+              <option value="-birthday">Birthday Desc</option>
             </select>
             <button type="submit" class="ml-3 bg-stone-400 text-white px-4 py-2 rounded-3xl">Update</button>
         </form>
@@ -44,7 +44,7 @@
     {% endfor %}
   </div>
   <div class="flex justify-center mt-12">
-    <a href="#" class="py-4 px-4 text-lg bg-stone-400 text-white hover:bg-stone-500 rounded-3xl">Back to top</a>
+    <a href="#" class=" p-2 text-lg bg-stone-400 text-white hover:bg-stone-500 rounded-3xl">Top</a>
   </div>
 </div>
 {% endblock %}
