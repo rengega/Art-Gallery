@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block title %} {{artwork.title}} {{ artist.surname }} {% endblock %}
+
+{% block content %}
+<div class="p-2">
+  <div class="flex justify-center">
+    <h3 class="text-2xl italic text-stone-500 pb-3">{{ artist.name }} {{ artist.surname }}</h3>
+  </div>
+  <div class="flex justify-center">
+    {% if artist.photo %}
+    <img src="{{ artist.photo.url }}" alt="" class="max-w-2xl">
+    {% else %}
+    <p>No photo available</p>
+    {% endif %}
+  </div>
+  <div class="p-6 bg-white">
+    <h3 class="text-xl text-stone-500">Birthday: {{ artist.date_of_birth }} </h3>
+    <h3 class="text-xl text-stone-500">Biography: {{ artist.bio }} </h3>
+  </div>
+</div>
+
+{% if related %}
+<div class="mt-6 px-6 py-12 bg-gray-100">
+  <h1 class="mb-12 text-3xl text-center">More artists from the era</h1>
+  <div class="grid grid-cols-4 gap-3 justify-center">
+    {% for artist in related %}
+    <div>
+      <a href="{% url 'artwork:artist' artist.id %}" class="">
+        <div >
+          {% if artist.photo %}
+          <img src="{{ artist.photo.url }}" alt="" >
+          {% else %}
+          <p>No photo available</p>
+          {% endif %}
+        </div>
+        <div class="p-6 bg-white">
+          <h3 class="text-l italic text-stone-500">{{ artist.name }} {{ artist.surname }} </h3>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+
+  </div>
+  {% endif %}
+  {% endblock %}

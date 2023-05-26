@@ -1,13 +1,30 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from .models import Artwork, Artist, Genre
+from datetime import date
 
 def detail(request, pk):
     artwork = get_object_or_404(Artwork, pk=pk)
-    related = Artwork.objects.filter(genre=artwork.genre).exclude(pk=pk)
+    related = Artwork.objects.filter(genre=artwork.genre).exclude(pk=pk)[0:4]
 
     return render(request, 'artwork/detail.html', {
         'artwork': artwork,
+        'related': related
+    })
+
+def artist(request, pk):
+    artist = get_object_or_404(Artist, pk=pk)
+
+    birth_year = artist.date_of_birth.year
+    start_date = date(birth_year - 50, 1, 1)
+    end_date = date(birth_year + 50, 12, 31)
+
+    related = Artist.objects.filter(
+        date_of_birth__range=(start_date, end_date)
+    ).exclude(pk=pk)[0:4]
+
+    return render(request, 'artwork/artist.html', {
+        'artist': artist,
         'related': related
     })
 

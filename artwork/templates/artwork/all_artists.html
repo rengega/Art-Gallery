@@ -28,7 +28,7 @@
   <div class="grid grid-cols-4 gap-3 justify-center">
     {% for artist in artists %}
     <div>
-      <a href="" class="">
+      <a href="{% url 'artwork:artist' artist.id %}" class="">
         <div >
           {% if artist.photo %}
           <img src="{{ artist.photo.url }}" alt="">
