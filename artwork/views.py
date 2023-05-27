@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from .models import Artwork, Artist, Genre
+from .models import Artwork, Artist, Genre, Collection
 from datetime import date
 from django.contrib.auth.decorators import login_required
-from .forms import NewGenreForm, NewArtistForm, NewArtworkForm
+from .forms import NewGenreForm, NewArtistForm, NewArtworkForm, NewCollectionForm
+from django import forms
 
 def detail(request, pk):
     artwork = get_object_or_404(Artwork, pk=pk)
@@ -151,4 +152,25 @@ def new_artwork(request):
     'form': form,
     'title': 'New Artwork'
 
+    })
+
+
+@login_required
+def new_collection(request):
+    if request.method == 'POST':
+        form = NewCollectionForm(request.POST, owner=request.user)
+
+        collection = form.save(commit=False)
+        collection.owner = request.user
+        collection.save()
+        selected_artworks = form.cleaned_data['artworks']
+        for artwork in selected_artworks:
+            artwork.collection = collection
+            artwork.save()
+        return redirect('/artwork/all_artworks')
+    else:
+        form = NewCollectionForm(owner=request.user)
+    return render(request, 'artwork/new_collection.html', {
+        'form': form,
+        'title': 'New Collection'
     })

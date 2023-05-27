@@ -21,6 +21,14 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+class Collection(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, )
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Artwork(models.Model):
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
@@ -30,7 +38,7 @@ class Artwork(models.Model):
     year = models.IntegerField(validators=[MaxValueValidator(2050)])
     photo = models.ImageField(upload_to='artworks/', blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, )
-
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -39,3 +47,5 @@ class Artwork(models.Model):
             if not self.owner:
                 self.owner = self.artist.user
             super().save(*args, **kwargs)
+
+

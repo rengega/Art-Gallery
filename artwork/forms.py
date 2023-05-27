@@ -1,5 +1,5 @@
 from django import forms
-from .models import Artwork, Artist, Genre
+from .models import Artwork, Artist, Genre, Collection
 from accounts.models import CustomUser as User
 
 class NewGenreForm(forms.ModelForm):
@@ -37,4 +37,35 @@ class NewArtworkForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork description'}),
             'year': forms.NumberInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork year'}),
             'photo': forms.FileInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork photo'}),
+        }
+
+class NewCollectionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        owner = kwargs.pop('owner')
+        super().__init__(*args, **kwargs)
+        self.fields['artworks'] = forms.ModelMultipleChoiceField(
+            #none or blank
+            queryset=Artwork.objects.filter(owner=owner, collection=None),
+            widget=forms.CheckboxSelectMultiple,
+            required=False
+        )
+
+    class Meta:
+        model = Collection
+        fields = ['name', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Collection name'}),
+            'description': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Collection description'}),
+        }
+
+
+class ArtworkForm(forms.ModelForm):
+    class Meta:
+        model = Artwork
+        fields = ['title', 'description', 'year', 'photo']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'year': forms.NumberInput(attrs={'class': 'form-control'}),
+            'photo': forms.FileInput(attrs={'class': 'form-control'}),
         }
