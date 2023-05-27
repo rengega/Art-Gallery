@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from .models import Artwork, Artist, Genre
 from datetime import date
+from django.contrib.auth.decorators import login_required
+from .forms import NewGenreForm, NewArtistForm, NewArtworkForm
 
 def detail(request, pk):
     artwork = get_object_or_404(Artwork, pk=pk)
@@ -70,6 +72,8 @@ def all_artworks(request, ):
     else:
         return redirect('accounts:login')
 
+
+
 def artworks_by_artist(request, pk):
     if request.user.is_authenticated:
         artist = get_object_or_404(Artist, pk=pk)
@@ -98,3 +102,53 @@ def artworks_by_artist(request, pk):
         })
     else:
         return redirect('accounts:login')
+
+@login_required
+def new_genre(request):
+    if request.method == 'POST':
+        form = NewGenreForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/artwork/all_artworks')
+    else:
+        form = NewGenreForm()
+    return render(request, 'artwork/new_genre.html', {
+    'form': form,
+    'title': 'New Genre'
+
+    })
+
+@login_required
+def new_artist(request):
+    if request.method == 'POST':
+        form = NewArtistForm(request.POST, request.FILES)
+        if form.is_valid():
+            artist = form.save(commit=False)
+            artist.photo = form.cleaned_data['photo']
+            artist.save()
+            return redirect('/artwork/all_artists')
+    else:
+        form = NewArtistForm()
+    return render(request, 'artwork/new_artist.html', {
+    'form': form,
+    'title': 'New Artist'
+
+    })
+
+@login_required
+def new_artwork(request):
+    if request.method == 'POST':
+        form = NewArtworkForm(request.POST, request.FILES)
+        if form.is_valid():
+            artwork = form.save(commit=False)
+            artwork.photo = form.cleaned_data['photo']
+            artwork.owner = request.user
+            artwork.save()
+            return redirect('/artwork/all_artworks')
+    else:
+        form = NewArtworkForm()
+    return render(request, 'artwork/new_artwork.html', {
+    'form': form,
+    'title': 'New Artwork'
+
+    })

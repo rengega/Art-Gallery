@@ -7,15 +7,17 @@
       <div class="flex justify-center">
         <h3 class="text-2xl italic text-stone-500 pb-3">{{ artwork.title }}, by {{artwork.artist}}</h3>
       </div>
-      <div class="flex justify-center">
+      <div class="flex justify-center ">
         {% if artwork.photo %}
-        <img src="{{ artwork.photo.url }}" alt="" class="max-w-3xl">
+        <img src="{{ artwork.photo.url }}" alt="" class="w-50">
         {% else %}
         <p>No photo available</p>
         {% endif %}
       </div>
       <div class="p-6 bg-white">
-        <h3 class="text-xl text-stone-500">Artist: {{ artwork.artist }} </h3>
+        <a href="{% url 'artwork:artist' artwork.artist.id %}">
+           <h3 class="text-xl text-stone-500 italic underline">Artist: {{ artwork.artist }} </h3>
+        </a>
         <h3 class="text-xl text-stone-500">Title: {{ artwork.title }} </h3>
         <h3 class="text-xl text-stone-500">Genre: {{ artwork.genre }} </h3>
         <h3 class="text-xl text-stone-500">Year: {{ artwork.year }} </h3>
@@ -30,15 +32,15 @@
         {% for artwork in related %}
         <div>
           <a href="{% url 'artwork:detail' artwork.id %}" class="">
-            <div >
+            <div class="card" style="">
               {% if artwork.photo %}
               <img src="{{ artwork.photo.url }}" alt="">
               {% else %}
               <p>No photo available</p>
               {% endif %}
-            </div>
-            <div class="p-6 bg-white">
-              <h3 class="text-l italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }} </h3>
+              <div class="card-body p-6 bg-white">
+                <p class="card-text italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }} </p>
+              </div>
             </div>
           </a>
         </div>

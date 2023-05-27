@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .forms import SignupForm
+from .models import CustomUser as User
+from artwork import models as artwork_models
 
 def signup(request):
     if request.method == 'POST':
@@ -16,3 +18,36 @@ def signup(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+def user_profile(request):
+    if request.user.is_authenticated:
+        user = User.objects.get(pk=request.user.pk)
+        my_artworks = artwork_models.Artwork.objects.filter(owner=user)
+        return render(request, 'accounts/profile.html', {'user': user, 'my_artworks': my_artworks})
+    else:
+        return redirect('accounts:login')
+
+def users_artworks(request, pk):
+    if request.user.is_authenticated:
+        sort_param = request.GET.get('filter', 'name')  # Get the sorting parameter from the URL query string, defaulting to 'name'
+        user = User.objects.get(pk=pk)
+        if sort_param == 'name':
+            artworks =  artwork_models.Artwork.objects.filter(owner=pk).order_by('title')
+        elif sort_param == '-name':
+            artworks = artwork_models.Artwork.objects.filter(owner=pk).order_by('-title')
+        elif sort_param == 'year':
+            artworks = artwork_models.Artwork.objects.filter(owner=pk).order_by('year')
+        elif sort_param == '-year':
+            artworks = artwork_models.Artwork.objects.filter(owner=pk).order_by('-year')
+        elif sort_param == 'artist':
+            artworks = artwork_models.Artwork.objects.filter(owner=pk).order_by('artist')
+        else:
+            artworks = artwork_models.Artwork.objects.filter(owner=pk)
+
+
+        return render(request, 'artwork/users_artworks.html', {
+            'artworks': artworks,
+            'user': user
+        })
+    else:
+        return redirect('accounts:login')

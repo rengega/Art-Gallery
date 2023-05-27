@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %} {{user.username}} {% endblock %}
+
+{% block content %}
+<div class="p-2">
+    <div class="flex justify-center">
+        <h3 class="text-2xl italic text-stone-500 pb-3">{{ user.name }} {{ user.surname }}</h3>
+    </div>
+    <div class="flex justify-center">
+        {% if user.photo %}
+        <img src="{{ user.photo.url }}" alt="" class="max-w-2xl">
+        {% else %}
+        <p>No photo available</p>
+        {% endif %}
+    </div>
+    <div class="p-6 bg-white">
+        <h3 class="text-xl text-stone-500">Birthday: {{ user.date_of_birth }} </h3>
+        <h3 class="text-xl text-stone-500">Biography: {{ user.bio }} </h3>
+    </div>
+</div>
+
+
+{% if my_artworks %}
+<div class="mt-6 px-6 py-12 bg-gray-100">
+    <h1 class="mb-12 text-3xl text-center">Artworks</h1>
+    <div class="grid grid-cols-4 gap-3 justify-center">
+        {% for artwork in my_artworks|slice:":4" %}
+        <div>
+            <a href="{% url 'artwork:detail' artwork.id %}" class="">
+                <div class="card" style="">
+                    {% if artwork.photo %}
+                    <img src="{{ artwork.photo.url }}" alt="">
+                    {% else %}
+                    <p>No photo available</p>
+                    {% endif %}
+                    <div class="card-body p-6 bg-white">
+                        <p class="card-text italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }} </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="flex justify-center mt-12">
+        <a href="{% url 'accounts:users_artworks' user.id %}" class="py-4 px-8 text-lg bg-stone-400 text-white hover:bg-stone-500">See all</a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
