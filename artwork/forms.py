@@ -46,7 +46,7 @@ class NewCollectionForm(forms.ModelForm):
         self.fields['artworks'] = forms.ModelMultipleChoiceField(
             #none or blank
             queryset=Artwork.objects.filter(owner=owner, collection=None),
-            widget=forms.CheckboxSelectMultiple,
+            widget=forms.CheckboxSelectMultiple(attrs={'class': 'scrollable-checkbox ', 'placeholder': 'Available Artworks'}),
             required=False
         )
 
