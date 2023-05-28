@@ -174,3 +174,33 @@ def new_collection(request):
         'form': form,
         'title': 'New Collection'
     })
+
+
+def all_collections(request):
+    if request.user.is_authenticated:
+        sort_param = request.GET.get('filter', 'name')
+        if sort_param == 'name':
+            collections = Collection.objects.all().order_by('name')
+        elif sort_param == '-name':
+            collections = Collection.objects.all().order_by('-name')
+        elif sort_param == 'owner':
+            collections = Collection.objects.all().order_by('owner')
+        elif  sort_param == '-owner':
+            collections = Collection.objects.all().order_by('-owner')
+        else:
+            collections = Collection.objects.all()
+
+        collection_data = []
+        for collection in collections:
+            artworks_for_collection = Artwork.objects.filter(collection=collection)
+            artworks_count = artworks_for_collection.count()
+            collection_dict = {
+                'collection': collection,
+                'artworks': artworks_for_collection,
+                'artworks_count': artworks_count,
+            }
+            collection_data.append(collection_dict)
+
+        return render(request, 'artwork/all_collections.html', {'collections': collection_data, 'sort_param': sort_param})
+    else:
+        return redirect('accounts:login')

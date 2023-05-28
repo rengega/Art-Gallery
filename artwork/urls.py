@@ -13,4 +13,5 @@ urlpatterns = [
     path('new_artist/', views.new_artist, name = 'new_artist'),
     path('new_artwork/', views.new_artwork, name = 'new_artwork'),
     path('new_collection/', views.new_collection, name = 'new_collection'),
+    path('all_collections/', views.all_collections, name = 'all_collections'),
     ]
