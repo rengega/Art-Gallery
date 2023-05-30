@@ -15,6 +15,7 @@ def signup(request):
     return render(request, 'accounts/signup.html', {'form': form})
 
 
+
 def logout_view(request):
     logout(request)
     return redirect('/')
