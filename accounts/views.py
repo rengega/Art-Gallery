@@ -23,7 +23,19 @@ def user_profile(request):
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.pk)
         my_artworks = artwork_models.Artwork.objects.filter(owner=user)
-        return render(request, 'accounts/profile.html', {'user': user, 'my_artworks': my_artworks})
+        my_collections = artwork_models.Collection.objects.filter(owner=user)
+        collection_data = []
+        for collection in my_collections:
+            artworks_for_collection = artwork_models.Artwork.objects.filter(collection=collection)
+            artworks_count = artworks_for_collection.count()
+            collection_dict = {
+                'collection': collection,
+                'artworks': artworks_for_collection,
+                'artworks_count': artworks_count,
+            }
+            collection_data.append(collection_dict)
+
+        return render(request, 'accounts/profile.html', {'user': user, 'my_artworks': my_artworks, 'my_collections': collection_data})
     else:
         return redirect('accounts:login')
 
@@ -49,5 +61,35 @@ def users_artworks(request, pk):
             'artworks': artworks,
             'user': user
         })
+    else:
+        return redirect('accounts:login')
+
+def users_collections(request, pk):
+
+    if request.user.is_authenticated:
+            sort_param = request.GET.get('filter', 'name')
+            if sort_param == 'name':
+                collections = artwork_models.Collection.objects.filter(owner=pk).order_by('name')
+            elif sort_param == '-name':
+                collections = artwork_models.Collection.objects.filter(owner=pk).order_by('-name')
+            elif sort_param == 'owner':
+                collections = artwork_models.Collection.objects.filter(owner=pk).order_by('owner')
+            elif  sort_param == '-owner':
+                collections = artwork_models.Collection.objects.filter(owner=pk).order_by('-owner')
+            else:
+                collections = artwork_models.Collection.objects.filter(owner=pk)
+
+            collection_data = []
+            for collection in collections:
+                artworks_for_collection =artwork_models.Artwork.objects.filter(collection=collection)
+                artworks_count = artworks_for_collection.count()
+                collection_dict = {
+                    'collection': collection,
+                    'artworks': artworks_for_collection,
+                    'artworks_count': artworks_count,
+                }
+                collection_data.append(collection_dict)
+
+            return render(request, 'artwork/all_collections.html', {'collections': collection_data, 'sort_param': sort_param})
     else:
         return redirect('accounts:login')

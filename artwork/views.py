@@ -204,3 +204,15 @@ def all_collections(request):
         return render(request, 'artwork/all_collections.html', {'collections': collection_data, 'sort_param': sort_param})
     else:
         return redirect('accounts:login')
+
+
+def collection(request, pk):
+    if request.user.is_authenticated:
+        collection = get_object_or_404(Collection, pk=pk)
+        artworks = Artwork.objects.filter(collection=collection)
+        return render(request, 'artwork/collection.html', {
+            'collection': collection,
+            'artworks': artworks
+        })
+    else:
+        return redirect('accounts:login')
