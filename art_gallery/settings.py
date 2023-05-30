@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSFR_TRUSTED_ORIGINS = ['https://art-gallery-production-ce6b.up.railway.app/']
+CSFR_TRUSTED_ORIGINS = ['*']
 
 ROOT_URLCONF = 'art_gallery.urls'
 
