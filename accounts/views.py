@@ -58,7 +58,7 @@ def users_artworks(request, pk):
             artworks = artwork_models.Artwork.objects.filter(owner=pk)
 
 
-        return render(request, 'artwork/users_artworks.html', {
+        return render(request, 'accounts/users_artworks.html', {
             'artworks': artworks,
             'user': user
         })
@@ -73,10 +73,6 @@ def users_collections(request, pk):
                 collections = artwork_models.Collection.objects.filter(owner=pk).order_by('name')
             elif sort_param == '-name':
                 collections = artwork_models.Collection.objects.filter(owner=pk).order_by('-name')
-            elif sort_param == 'owner':
-                collections = artwork_models.Collection.objects.filter(owner=pk).order_by('owner')
-            elif  sort_param == '-owner':
-                collections = artwork_models.Collection.objects.filter(owner=pk).order_by('-owner')
             else:
                 collections = artwork_models.Collection.objects.filter(owner=pk)
 
@@ -91,6 +87,6 @@ def users_collections(request, pk):
                 }
                 collection_data.append(collection_dict)
 
-            return render(request, 'artwork/all_collections.html', {'collections': collection_data, 'sort_param': sort_param})
+            return render(request, 'accounts/users_collections.html', {'collections': collection_data, 'sort_param': sort_param})
     else:
         return redirect('accounts:login')

@@ -3,18 +3,24 @@
 {% block title %} {{artwork.title}} {% endblock %}
 
 {% block content %}
-    <div class="p-2">
+    <div class="p-2 mt-10">
       <div class="flex justify-center">
         <h3 class="text-2xl italic text-stone-500 pb-3">{{ artwork.title }}, by {{artwork.artist}}</h3>
       </div>
-      <div class="flex justify-center ">
+      <div class="mt-10">
         {% if artwork.photo %}
-        <img src="{{ artwork.photo.url }}" alt="" class="w-50">
+        <div class="flex justify-center">
+          <img src="{{ artwork.photo.url }}" alt="" class="w-50">
+        </div>
+        <div class="flex justify-center mt-12">
+          <a href="{{ artwork.photo.url }}" target="_blank" class="ml-4 py-4 px-8 text-xl font-bold text-xl text-stone-600 hover:text-white bg-stone-100 hover:bg-stone-400">FULL SCREEN</a>
+        </div>
         {% else %}
         <p>No photo available</p>
         {% endif %}
       </div>
-      <div class="p-6 bg-white">
+
+      <div class="p-6 mt-12 bg-white border-t">
         <a href="{% url 'artwork:artist' artwork.artist.id %}">
            <h3 class="text-xl text-stone-500 italic underline">Artist: {{ artwork.artist }} </h3>
         </a>
@@ -22,30 +28,58 @@
         <h3 class="text-xl text-stone-500">Genre: {{ artwork.genre }} </h3>
         <h3 class="text-xl text-stone-500">Year: {{ artwork.year }} </h3>
         <h3 class="text-xl text-stone-500"> {{ artwork.description }} </h3>
+        {% if artwork.owner == request.user %}
+        <div class="flex w-100 justify-center mt-12 border-t border-b p-6">
+          <a href="#" class="ml-4 py-4 px-8 text-xl font-bold text-xl text-yellow-600 hover:text-yellow-200 bg-yellow-100 hover:bg-yellow-600">EDIT</a>
+          <a class="ml-4 py-4 px-8 font-bold text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600" data-toggle="modal" data-target="#exampleModalCenter">DELETE</a>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Delete Artwork</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you're willing to delete this artwork from your library?
+                </div>
+                <div class="modal-footer">
+                  <button   data-dismiss="modal" class="ml-4 py-4 px-8 font-bold text-xl text-teal-600 hover:text-teal-200 bg-teal-100 hover:bg-teal-600">Close</button>
+                  <a href="{% url 'artwork:delete_artwork' artwork.id %}"  class="ml-4 py-4 px-8 font-bold text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600">DELETE</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        {% endif %}
       </div>
-    </div>
 
     {% if related %}
         <div class="mt-6 px-6 py-12 bg-gray-100">
-            <h1 class="mb-12 text-3xl text-center">More on {{artwork.genre}}</h1>
-      <div class="grid grid-cols-4 gap-3 justify-center">
-        {% for artwork in related %}
-        <div>
-          <a href="{% url 'artwork:detail' artwork.id %}" class="">
-            <div class="card" style="">
-              {% if artwork.photo %}
-              <img src="{{ artwork.photo.url }}" alt="">
-              {% else %}
-              <p>No photo available</p>
-              {% endif %}
-              <div class="card-body p-6 bg-white">
-                <p class="card-text italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }} </p>
-              </div>
+          <h1 class="mb-12 text-3xl text-center">More on {{artwork.genre}}</h1>
+          <div class="grid grid-cols-4 gap-3 justify-center">
+            {% for artwork in related %}
+            <div>
+              <a href="{% url 'artwork:detail' artwork.id %}" class="">
+                <div class="card" style="">
+                  {% if artwork.photo %}
+                  <img src="{{ artwork.photo.url }}" alt="">
+                  {% else %}
+                  <p>No photo available</p>
+                  {% endif %}
+                  <div class="card-body p-6 bg-white">
+                    <p class="card-text italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }} </p>
+                  </div>
+                </div>
+              </a>
             </div>
-          </a>
+            {% endfor %}
+          </div>
         </div>
-        {% endfor %}
-      </div>
-      </div>
+    </div>
     {% endif %}
 {% endblock %}

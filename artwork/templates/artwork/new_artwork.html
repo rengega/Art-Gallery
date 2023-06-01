@@ -38,6 +38,13 @@
       {{ form.description }}
     </div>
     <div class="mb-3">
+      <div class=" flex justify-between">
+        <label class="inline-block mb-2">Collection</label>
+        <a href="{% url 'artwork:new_collection' %}" class="pl-5">+New</a>
+      </div>
+      {{ form.collection }}
+    </div>
+    <div class="mb-3">
       <label class="inline-block mb-2">Photo</label>
       {{ form.photo }}
     </div>

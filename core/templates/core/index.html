@@ -5,10 +5,13 @@
 {% block content %}
     <div class="m-6 px-6 py-12 bg-gray-100">
         <h1 class="mb-12 text-3xl text-center">Explore Artworks</h1>
+        {% if artworks %}
+
         <div class="flex items-center justify-center">
 
             <div id="carouselExampleControls" class="carousel slide w-75" data-ride="carousel">
                 <div class="carousel-inner">
+
                     <div class="carousel-item active">
                         <a href="{% url 'artwork:detail' artworks.0.id %}" class="">
                             <div class="card" style="">
@@ -24,53 +27,27 @@
 
                         </a>
                     </div>
-                    <div class="carousel-item">
-                        <a href="{% url 'artwork:detail' artworks.1.id %}" class="">
 
-                            <div class="card" style="">
-                                {% if artworks.1.photo %}
-                                <img src="{{ artworks.1.photo.url }}" alt="">
-                                {% else %}
-                                <p>No photo available</p>
-                                {% endif %}
-                                <div class="card-body p-6 bg-white">
-                                    <p class="card-text italic text-stone-500">{{ artworks.1.title }}, {{ artworks.1.artist }} </p>
+                    {% for artwork in artworks|slice:"1:" %}
+
+                        <div class="carousel-item ">
+                            <a href="{% url 'artwork:detail' artworks.0.id %}" class="">
+                                <div class="card" style="">
+                                    {% if artworks.0.photo %}
+                                    <img src="{{ artwork.photo.url }}" alt="">
+                                    {% else %}
+                                    <p>No photo available</p>
+                                    {% endif %}
+                                    <div class="card-body p-6 bg-white">
+                                        <p class="card-text italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }} </p>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="{% url 'artwork:detail' artworks.2.id %}" class="">
+                            </a>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
 
-                            <div class="card" style="">
-                                {% if artworks.2.photo %}
-                                <img src="{{ artworks.2.photo.url }}" alt="">
-                                {% else %}
-                                <p>No photo available</p>
-                                {% endif %}
-                                <div class="card-body p-6 bg-white">
-                                    <p class="card-text italic text-stone-500">{{ artworks.2.title }}, {{ artworks.2.artist }} </p>
-                                </div>
-                            </div>
-
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="{% url 'artwork:detail' artworks.3.id %}" class="">
-
-                            <div class="card" style="">
-                                {% if artworks.3.photo %}
-                                <img src="{{ artworks.3.photo.url }}" alt="">
-                                {% else %}
-                                <p>No photo available</p>
-                                {% endif %}
-                                <div class="card-body p-6 bg-white">
-                                    <p class="card-text italic text-stone-500">{{ artworks.3.title }}, {{ artworks.3.artist }} </p>
-                                </div>
-                            </div>
-
-                        </a>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -82,9 +59,10 @@
                 </a>
             </div>
 
-            <div class="flex justify-center mt-12">
-                <a href="{% url 'artwork:all_artworks' %}" class="py-4 px-8 text-lg bg-stone-400 text-white hover:bg-stone-500">See all</a>
-            </div>
+
+        </div>
+        <div class="flex justify-center mt-12">
+            <a href="{% url 'artwork:all_artworks' %}" class="py-4 px-8 text-lg bg-stone-400 text-white hover:bg-stone-500">See all</a>
         </div>
         </div>
     </div>

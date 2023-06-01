@@ -26,18 +26,25 @@ class NewArtistForm(forms.ModelForm):
         }
 
 class NewArtworkForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['collection'].queryset = Collection.objects.filter(owner=user)
+
     class Meta:
         model = Artwork
-        fields = ['artist', 'genre', 'title', 'description', 'year', 'photo']
-
+        fields = ['artist', 'genre', 'title', 'description', 'collection', 'year', 'photo']
         widgets = {
             'artist': forms.Select(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artist'}),
             'genre': forms.Select(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Genre'}),
             'title': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork title'}),
             'description': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork description'}),
             'year': forms.NumberInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork year'}),
+            'collection': forms.Select(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Collection'}),
             'photo': forms.FileInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork photo'}),
         }
+
 
 class NewCollectionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

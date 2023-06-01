@@ -52,7 +52,7 @@ def all_artists(request):
     else:
         return redirect('accounts:login')
 
-def all_artworks(request, ):
+def all_artworks(request):
     if request.user.is_authenticated:
         sort_param = request.GET.get('filter', 'name')  # Get the sorting parameter from the URL query string, defaulting to 'name'
 
@@ -104,6 +104,49 @@ def artworks_by_artist(request, pk):
     else:
         return redirect('accounts:login')
 
+def all_collections(request):
+    if request.user.is_authenticated:
+        sort_param = request.GET.get('filter', 'name')
+        if sort_param == 'name':
+            collections = Collection.objects.all().order_by('name')
+        elif sort_param == '-name':
+            collections = Collection.objects.all().order_by('-name')
+        elif sort_param == 'owner':
+            collections = Collection.objects.all().order_by('owner')
+        elif  sort_param == '-owner':
+            collections = Collection.objects.all().order_by('-owner')
+        else:
+            collections = Collection.objects.all()
+
+        collection_data = []
+        for collection in collections:
+            artworks_for_collection = Artwork.objects.filter(collection=collection)
+            artworks_count = artworks_for_collection.count()
+            collection_dict = {
+                'collection': collection,
+                'artworks': artworks_for_collection,
+                'artworks_count': artworks_count,
+            }
+            collection_data.append(collection_dict)
+
+        return render(request, 'artwork/all_collections.html', {'collections': collection_data, 'sort_param': sort_param})
+    else:
+        return redirect('accounts:login')
+
+
+def collection(request, pk):
+    if request.user.is_authenticated:
+        collection = get_object_or_404(Collection, pk=pk)
+        artworks = Artwork.objects.filter(collection=collection)
+        return render(request, 'artwork/collection.html', {
+            'collection': collection,
+            'artworks': artworks
+        })
+    else:
+        return redirect('accounts:login')
+
+
+
 @login_required
 def new_genre(request):
     if request.method == 'POST':
@@ -147,7 +190,7 @@ def new_artwork(request):
             artwork.save()
             return redirect('/artwork/all_artworks')
     else:
-        form = NewArtworkForm()
+        form = NewArtworkForm(user=request.user)
     return render(request, 'artwork/new_artwork.html', {
     'form': form,
     'title': 'New Artwork'
@@ -176,43 +219,18 @@ def new_collection(request):
     })
 
 
-def all_collections(request):
-    if request.user.is_authenticated:
-        sort_param = request.GET.get('filter', 'name')
-        if sort_param == 'name':
-            collections = Collection.objects.all().order_by('name')
-        elif sort_param == '-name':
-            collections = Collection.objects.all().order_by('-name')
-        elif sort_param == 'owner':
-            collections = Collection.objects.all().order_by('owner')
-        elif  sort_param == '-owner':
-            collections = Collection.objects.all().order_by('-owner')
-        else:
-            collections = Collection.objects.all()
+@login_required
+def delete_artwork(request, pk):
+    artwork = get_object_or_404(Artwork, pk=pk, owner=request.user)
+    artwork.delete()
+    return redirect(f'/accounts/users_artworks/{request.user.id}')
 
-        collection_data = []
-        for collection in collections:
-            artworks_for_collection = Artwork.objects.filter(collection=collection)
-            artworks_count = artworks_for_collection.count()
-            collection_dict = {
-                'collection': collection,
-                'artworks': artworks_for_collection,
-                'artworks_count': artworks_count,
-            }
-            collection_data.append(collection_dict)
-
-        return render(request, 'artwork/all_collections.html', {'collections': collection_data, 'sort_param': sort_param})
-    else:
-        return redirect('accounts:login')
-
-
-def collection(request, pk):
-    if request.user.is_authenticated:
-        collection = get_object_or_404(Collection, pk=pk)
-        artworks = Artwork.objects.filter(collection=collection)
-        return render(request, 'artwork/collection.html', {
-            'collection': collection,
-            'artworks': artworks
-        })
-    else:
-        return redirect('accounts:login')
+@login_required
+def delete_collection(request, pk, delete_artworks):
+    collection = get_object_or_404(Collection, pk=pk, owner=request.user)
+    if delete_artworks == 'True': # If the delete_artworks parameter is True, delete all the artworks in the collection
+       artworks = Artwork.objects.filter(collection=collection)
+       for artwork in artworks:
+            artwork.delete()
+    collection.delete()     # Delete the collection
+    return redirect(f'/accounts/users_collections/{request.user.id}')
