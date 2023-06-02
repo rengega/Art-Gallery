@@ -16,4 +16,5 @@ urlpatterns = [
     path('users_collections/<int:pk>/', views.users_collections, name = 'users_collections'),
     path('all_users/', views.all_users, name = 'all_users'),
     path('edit_profile/<int:pk>/', views.edit_profile, name = 'edit_profile'),
+    path('change_password/', views.change_password, name = 'change_password'),
     ]

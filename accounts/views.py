@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from .forms import SignupForm, LoginForm, EditProfileForm
+from .forms import SignupForm, LoginForm, EditProfileForm, ChangePasswordForm
 from .models import CustomUser as User
 from artwork import models as artwork_models
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def signup(request):
     if request.method == 'POST':
@@ -23,8 +24,46 @@ def logout_view(request):
 
 def all_users(request):
     if request.user.is_authenticated:
-        users = User.objects.all()
+        sort_param = request.GET.get('filter', 'name')  # Get the sorting parameter from the URL query string, defaulting to 'name'
+
+        if sort_param == 'name':
+            users = User.objects.all().order_by('name')
+        elif sort_param == '-name':
+            users = User.objects.all().order_by('-name')
+        elif sort_param == 'surname':
+            users = User.objects.all().order_by('surname')
+        elif sort_param == '-surname':
+            users = User.objects.all().order_by('-surname')
+        elif sort_param == 'year':
+            users = User.objects.all().order_by('date_of_birth')
+        elif sort_param == '-year':
+            users = User.objects.all().order_by('-date_of_birth')
+        else:
+            users = User.objects.all()
+
         return render(request, 'accounts/all_users.html', {'users': users})
+    else:
+        return redirect('accounts:login')
+
+
+def all_artworks(request):
+    if request.user.is_authenticated:
+        sort_param = request.GET.get('filter', 'name')  # Get the sorting parameter from the URL query string, defaulting to 'name'
+
+        if sort_param == 'name':
+            artworks = Artwork.objects.all().order_by('title')
+        elif sort_param == '-name':
+            artworks = Artwork.objects.all().order_by('-title')
+        elif sort_param == 'year':
+            artworks = Artwork.objects.all().order_by('year')
+        elif sort_param == '-year':
+            artworks = Artwork.objects.all().order_by('-year')
+        elif sort_param == 'artist':
+            artworks = Artwork.objects.all().order_by('artist')
+        else:
+            artworks = Artwork.objects.all()
+
+        return render(request, 'artwork/all_artworks.html', {'artworks': artworks, 'sort_param': sort_param})
     else:
         return redirect('accounts:login')
 
@@ -112,3 +151,15 @@ def edit_profile(request, pk):
         form = EditProfileForm(instance=request.user)
     return render(request, 'accounts/edit_profile.html', {'form': form})
 
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your password has been changed successfully.')
+            return redirect('accounts:my_profile', pk=request.user.pk)
+    else:
+        form = ChangePasswordForm(request.user)
+    return render(request, 'accounts/change_password.html', {'form': form})

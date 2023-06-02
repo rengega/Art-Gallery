@@ -11,11 +11,11 @@
             <div>
                 <select name="filter" id="">
                     <option value="" disabled selected>Sort by</option>
+                    <option value="-name">Name Desc</option>
                     <option value="name">Name Asc</option>
                     <option value="-name">Surname Desc</option>
                     <option value="year">Birthday Asc</option>
                     <option value="-year">Birthday Desc</option>
-                    <option value="artist">Artist</option>
                 </select>
                 <button type="submit" class="ml-3 bg-stone-400 text-white px-4 py-2 rounded-3xl">Update</button>
             </div>
@@ -44,7 +44,8 @@
                                 {% endif %}
                             </div>
                             <div class="col-8">
-                                <p class="card-text italic text-stone-500">{{ user.name }}, {{ user.surname }} </p>
+                                <p class="card-text italic text-stone-500">{{ user.username }} </p>
+                                <p class="card-text italic text-stone-500">{{ user.name }} {{ user.surname }} </p>
                                 <p class="card-text italic text-stone-500">{{ user.bio }} </p>
                             </div>
                         </div>

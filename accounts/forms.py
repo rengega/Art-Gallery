@@ -1,6 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from .models import CustomUser
+
 
 
 class LoginForm(AuthenticationForm):
@@ -66,3 +67,28 @@ class EditProfileForm(forms.ModelForm):
             'bio': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Bio'}),
             'photo': forms.ClearableFileInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Photo'}),
         }
+
+
+class ChangePasswordForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({
+            'placeholder': 'Old password',
+            'class': 'w-full py-4 px-6 rounded-xl',
+            'autocomplete': 'current-password',
+        })
+        self.fields['new_password1'].widget = forms.PasswordInput(attrs={
+            'placeholder': 'New password',
+            'class': 'w-full py-4 px-6 rounded-xl',
+        })
+        self.fields['new_password2'].widget = forms.PasswordInput(attrs={
+            'placeholder': 'Repeat new password',
+            'class': 'w-full py-4 px-6 rounded-xl',
+        })
+
+    def clean_old_password(self):
+        # Custom validation for the old password field
+        old_password = self.cleaned_data.get('old_password')
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError('The current password is incorrect.')
+        return old_password
