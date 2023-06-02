@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from .forms import SignupForm
+from .forms import SignupForm, LoginForm, EditProfileForm
 from .models import CustomUser as User
 from artwork import models as artwork_models
+from django.contrib.auth.decorators import login_required
 
 def signup(request):
     if request.method == 'POST':
@@ -98,4 +99,16 @@ def users_collections(request, pk):
     else:
         return redirect('accounts:login')
 
+
+@login_required
+def edit_profile(request, pk):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.photo = form.cleaned_data['photo']
+            form.save()
+            return redirect('accounts:my_profile', pk=pk)
+    else:
+        form = EditProfileForm(instance=request.user)
+    return render(request, 'accounts/edit_profile.html', {'form': form})
 

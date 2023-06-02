@@ -58,31 +58,11 @@ class SignupForm(UserCreationForm):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('name', 'surname', 'date_of_birth', 'email', 'bio', 'photo')
-
-
-    name = forms.CharField(widget = forms.TextInput( attrs = {
-                'placeholder': 'Name',
-                'class': 'w-full py-4 px-6 rounded-xl'
-        }))
-
-    surname = forms.CharField(widget = forms.TextInput( attrs = {
-                'placeholder': 'Last name',
-                'class': 'w-full py-4 px-6 rounded-xl'
-        }))
-
-    date_of_birth = forms.CharField(widget = forms.DateInput( attrs = {
-                'placeholder': 'Your birthday',
-                'class': 'w-full py-4 px-6 rounded-xl'
-        }))
-
-
-    bio = forms.CharField(widget = forms.Textarea( attrs = {
-                'placeholder': 'Bio',
-                'class': 'w-full py-4 px-6 rounded-xl'
-    }))
-
-    photo = forms.ImageField(widget = forms.FileInput( attrs = {
-                'placeholder': 'Photo',
-                'class': 'w-full py-4 px-6 rounded-xl'
-    }))
+        fields = ('name', 'surname', 'date_of_birth', 'bio', 'photo')
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Name'}),
+            'surname': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Surname'}),
+            'date_of_birth': forms.DateInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Date of birth'}),
+            'bio': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Bio'}),
+            'photo': forms.ClearableFileInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Photo'}),
+        }

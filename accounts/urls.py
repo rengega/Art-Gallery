@@ -15,4 +15,5 @@ urlpatterns = [
     path('users_artworks/<int:pk>/', views.users_artworks, name = 'users_artworks'),
     path('users_collections/<int:pk>/', views.users_collections, name = 'users_collections'),
     path('all_users/', views.all_users, name = 'all_users'),
+    path('edit_profile/<int:pk>/', views.edit_profile, name = 'edit_profile'),
     ]
