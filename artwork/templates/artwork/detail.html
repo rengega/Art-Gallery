@@ -9,11 +9,20 @@
       </div>
       <div class="mt-10">
         {% if artwork.photo %}
-        <div class="flex justify-center">
-          <img src="{{ artwork.photo.url }}" alt="" class="w-50">
-        </div>
+          <div class="flex justify-center">
+            <img src="{{ artwork.photo.url }}" alt="" class="w-50" type="button" data-toggle="modal" data-target=".bd-example-modal-lg">
+          </div>
+
+        <!-- Large modal -->
+
         <div class="flex justify-center mt-12">
-          <a href="{{ artwork.photo.url }}" target="_blank" class="ml-4 py-4 px-8 text-xl font-bold text-xl text-stone-600 hover:text-white bg-stone-100 hover:bg-stone-400">FULL SCREEN</a>
+          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <img src="{{ artwork.photo.url }}" alt="" >
+              </div>
+            </div>
+          </div>
         </div>
         {% else %}
         <p>No photo available</p>
@@ -27,7 +36,7 @@
         <h3 class="text-xl text-stone-500">Title: {{ artwork.title }} </h3>
         <h3 class="text-xl text-stone-500">Genre: {{ artwork.genre }} </h3>
         <h3 class="text-xl text-stone-500">Year: {{ artwork.year }} </h3>
-        <h3 class="text-xl text-stone-500"> {{ artwork.description }} </h3>
+        <h3 class="text-xl text-stone-500">Description: {{ artwork.description }} </h3>
         <a href="{% url 'accounts:my_profile' artwork.owner.id %}">
           <h3 class="text-xl text-stone-500 italic underline">Owner: {{ artwork.owner }} </h3>
         </a>
