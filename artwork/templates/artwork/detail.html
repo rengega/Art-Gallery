@@ -28,6 +28,14 @@
         <h3 class="text-xl text-stone-500">Genre: {{ artwork.genre }} </h3>
         <h3 class="text-xl text-stone-500">Year: {{ artwork.year }} </h3>
         <h3 class="text-xl text-stone-500"> {{ artwork.description }} </h3>
+        <a href="{% url 'accounts:my_profile' artwork.owner.id %}">
+          <h3 class="text-xl text-stone-500 italic underline">Owner: {{ artwork.owner }} </h3>
+        </a>
+        {% if artwork.collection %}
+        <a href="{% url 'artwork:collection' artwork.collection.id %}">
+          <h3 class="text-xl text-stone-500 italic underline">Collection: {{ artwork.collection }} </h3>
+        </a>
+        {% endif %}
         {% if artwork.owner == request.user %}
         <div class="flex w-100 justify-center mt-12 border-t border-b p-6">
           <a href="{% url 'artwork:edit_artwork' artwork.id %}" class="ml-4 py-4 px-8 text-xl font-bold text-xl text-yellow-600 hover:text-yellow-200 bg-yellow-100 hover:bg-yellow-600">EDIT</a>

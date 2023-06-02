@@ -14,4 +14,5 @@ urlpatterns = [
     path('my_profile/<int:pk>', views.user_profile, name = 'my_profile'),
     path('users_artworks/<int:pk>/', views.users_artworks, name = 'users_artworks'),
     path('users_collections/<int:pk>/', views.users_collections, name = 'users_collections'),
+    path('all_users/', views.all_users, name = 'all_users'),
     ]

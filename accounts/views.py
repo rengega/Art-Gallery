@@ -20,6 +20,13 @@ def logout_view(request):
     logout(request)
     return redirect('/')
 
+def all_users(request):
+    if request.user.is_authenticated:
+        users = User.objects.all()
+        return render(request, 'accounts/all_users.html', {'users': users})
+    else:
+        return redirect('accounts:login')
+
 def user_profile(request, pk):
     if request.user.is_authenticated:
         user = User.objects.get(pk=pk)
@@ -90,3 +97,5 @@ def users_collections(request, pk):
             return render(request, 'accounts/users_collections.html', {'collections': collection_data, 'sort_param': sort_param})
     else:
         return redirect('accounts:login')
+
+

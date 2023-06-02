@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% block title %}People{% endblock %}
+
+{% block content %}
+
+<div class=" flex justify-center">
+
+    <div >
+        <form action="" method="GET">
+            <div>
+                <select name="filter" id="">
+                    <option value="" disabled selected>Sort by</option>
+                    <option value="name">Name Asc</option>
+                    <option value="-name">Surname Desc</option>
+                    <option value="year">Birthday Asc</option>
+                    <option value="-year">Birthday Desc</option>
+                    <option value="artist">Artist</option>
+                </select>
+                <button type="submit" class="ml-3 bg-stone-400 text-white px-4 py-2 rounded-3xl">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+
+
+<div class="mt-6 px-6 py-12 bg-gray-100">
+    <h1 class="mb-12 text-3xl text-center">People</h1>
+    <div class="grid grid-cols-1 w-100">
+        {% for user in users %}
+        <div>
+            <a href="{% url 'accounts:my_profile' user.id %}" class="">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 flex justify-center">
+                                {% if user.photo %}
+
+                                <img src="{{ user.photo.url }}" class="h-20" alt="">
+                                {% else %}
+                                <p>No photo available</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-8">
+                                <p class="card-text italic text-stone-500">{{ user.name }}, {{ user.surname }} </p>
+                                <p class="card-text italic text-stone-500">{{ user.bio }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="flex justify-center mt-12">
+        <a href="#" class=" p-2 text-lg bg-stone-400 text-white hover:bg-stone-500 rounded-3xl">Top</a>
+    </div>
+</div>
+{% endblock %}
+
