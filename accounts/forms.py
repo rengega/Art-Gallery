@@ -59,13 +59,15 @@ class SignupForm(UserCreationForm):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('name', 'surname', 'date_of_birth', 'bio', 'photo')
+        fields = ('name', 'surname', 'date_of_birth', 'bio', 'photo', 'username', 'email')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Name'}),
             'surname': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Surname'}),
             'date_of_birth': forms.DateInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Date of birth'}),
             'bio': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Bio'}),
             'photo': forms.ClearableFileInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Photo'}),
+            'username': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Username'}),
+            'email': forms.EmailInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Email'}),
         }
 
 
