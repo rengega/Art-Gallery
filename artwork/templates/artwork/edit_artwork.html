@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit Artwork{% endblock %}
+
+{% block content %}
+<div class="w-1/3 p-6 my-6 mx-auto bg-gray-100 rounded-lg">
+    <div class="flex justify-center">
+        <h1 class="mb-6 text-3xl">Edit Artwork</h1>
+    </div>
+    <form action="." method="post" enctype="multipart/form-data">
+        {% csrf_token%}
+
+        <div class="mb-3">
+            <div class=" flex justify-between">
+                <label class="inline-block mb-2">Artist </label>
+                <a href="{% url 'artwork:new_artist' %}" class="pl-5">+New</a>
+            </div>
+            {{ form.artist }}
+        </div>
+
+        <div class="mb-3">
+            <div class=" flex justify-between">
+                <label class="inline-block mb-2">Genre </label>
+                <a href="{% url 'artwork:new_genre' %}" class="pl-5">+New</a>
+            </div>
+            {{ form.genre }}
+        </div>
+        <div class="mb-3">
+            <label class="inline-block mb-2">Title</label>
+            {{ form.title }}
+        </div>
+        <div class="mb-3">
+            <label class="inline-block mb-2">Year</label>
+            {{ form.year }}
+        </div>
+        <div class="mb-3">
+            <label class="inline-block mb-2">Description</label>
+            {{ form.description }}
+        </div>
+        <div class="mb-3">
+            <div class=" flex justify-between">
+                <label class="inline-block mb-2">Collection</label>
+                <a href="{% url 'artwork:new_collection' %}" class="pl-5">+New</a>
+            </div>
+            {{ form.collection }}
+        </div>
+        <div class="mb-3">
+            <label class="inline-block mb-2">Photo</label>
+            {{ form.photo }}
+
+        </div>
+
+
+
+        {% if form.errors or form.non_field_errors %}
+        <div class="mb-3 p-6 bg-red-100">
+            {% for field in form %}
+            {{field.errors}}
+            {% endfor %}
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+        <div class="flex justify-center">
+            <button class="py-4 px-8 text-lg text-white rounded-lg bg-stone-400 hover:bg-stone-500">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

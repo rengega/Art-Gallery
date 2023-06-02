@@ -65,14 +65,42 @@ class NewCollectionForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Collection description'}),
         }
 
-
-class ArtworkForm(forms.ModelForm):
+class EditArtworkForm(forms.ModelForm):
     class Meta:
         model = Artwork
-        fields = ['title', 'description', 'year', 'photo']
+        fields = ['artist', 'genre', 'title', 'description', 'collection', 'year', 'photo']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'year': forms.NumberInput(attrs={'class': 'form-control'}),
-            'photo': forms.FileInput(attrs={'class': 'form-control'}),
+            'artist': forms.Select(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artist'}),
+            'genre': forms.Select(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Genre'}),
+            'title': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork title'}),
+            'description': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork description'}),
+            'year': forms.NumberInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork year'}),
+            'collection': forms.Select(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Collection'}),
+            'photo': forms.ClearableFileInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Artwork photo'}),
         }
+
+class EditCollectionForm(forms.ModelForm):
+    add_artworks = forms.ModelMultipleChoiceField(
+        queryset=Artwork.objects.none(),
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'scrollable-checkbox ', 'placeholder': 'Available Artworks'}),
+        required=False
+    )
+    remove_artworks = forms.ModelMultipleChoiceField(
+        queryset=Artwork.objects.none(),
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'scrollable-checkbox ', 'placeholder': 'Available Artworks'}),
+        required=False
+    )
+
+    class Meta:
+        model = Collection
+        fields = ['name', 'description', 'add_artworks', 'remove_artworks']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Collection name'}),
+            'description': forms.Textarea(attrs={'class': 'w-full py-4 px-6 rounded-xl', 'placeholder': 'Collection description'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['add_artworks'].queryset = Artwork.objects.filter(owner=user, collection=None)
+        self.fields['remove_artworks'].queryset = Artwork.objects.filter(collection=self.instance)

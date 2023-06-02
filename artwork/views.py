@@ -3,8 +3,10 @@ from django.shortcuts import get_object_or_404
 from .models import Artwork, Artist, Genre, Collection
 from datetime import date
 from django.contrib.auth.decorators import login_required
-from .forms import NewGenreForm, NewArtistForm, NewArtworkForm, NewCollectionForm
+from .forms import NewGenreForm, NewArtistForm, NewArtworkForm, NewCollectionForm, EditArtworkForm, EditCollectionForm
 from django import forms
+from django.http import HttpResponse
+
 
 def detail(request, pk):
     artwork = get_object_or_404(Artwork, pk=pk)
@@ -234,3 +236,59 @@ def delete_collection(request, pk, delete_artworks):
             artwork.delete()
     collection.delete()     # Delete the collection
     return redirect(f'/accounts/users_collections/{request.user.id}')
+
+
+@login_required
+def edit_artwork(request, pk):
+    artwork = get_object_or_404(Artwork, pk=pk, owner=request.user)
+
+    if request.method == 'POST':
+        form = EditArtworkForm(request.POST, request.FILES, instance=artwork)
+        if form.is_valid():
+            form.photo = form.cleaned_data['photo']
+            form.save()
+            return redirect('artwork:detail', pk=artwork.pk)
+    else:
+        form = EditArtworkForm(instance=artwork)
+    return render(request, 'artwork/edit_artwork.html', {
+        'form': form,
+        'title': 'Edit Artwork',
+        'artwork': artwork
+    })
+
+
+@login_required
+def edit_collection(request, pk):
+    collection = get_object_or_404(Collection, pk=pk, owner=request.user)
+    if request.method == 'POST':
+        form = EditCollectionForm(request.POST, instance=collection, user=request.user)
+
+        if form.is_valid():
+            form.save()
+
+            to_remove = form.cleaned_data['remove_artworks']
+            to_add = form.cleaned_data['add_artworks']
+
+            for artwork in to_remove:
+                artwork.collection = None
+                artwork.save()
+
+            for artwork in to_add:
+                artwork.collection = collection
+                artwork.save()
+
+            return redirect('artwork:collection', pk=collection.pk)
+        else:
+            return render(request, 'artwork/edit_collection.html', {
+                'form': form,
+                'title': 'Edit Collection',
+                'error_message': 'Invalid form data. Please correct the errors and try again.'
+            })
+    else:
+        form = EditCollectionForm(instance=collection, user=request.user)
+
+    return render(request, 'artwork/edit_collection.html', {
+        'form': form,
+        'title': 'Edit Collection',
+        'collection': collection
+    })

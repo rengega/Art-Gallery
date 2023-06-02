@@ -38,6 +38,10 @@ class Collection(models.Model):
     def __str__(self):
         return self.name
 
+
+
+
+
 class Artwork(models.Model):
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)

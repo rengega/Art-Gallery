@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit Collection{% endblock %}
+
+
+
+{% block content %}
+<div class="w-1/3 p-6 my-6 mx-auto bg-gray-100 rounded-lg">
+  <div class="flex justify-center">
+    <h1 class="mb-6 text-3xl">Edit Collection</h1>
+  </div>
+
+  <form action="." method="post">
+    {% csrf_token%}
+
+    <div class="mb-3">
+      <label class="inline-block mb-2">Name</label>
+      {{ form.name }}
+    </div>
+    <div class="mb-3">
+      <label class="inline-block mb-2">Description</label>
+      {{ form.description }}
+    </div>
+
+    {% if form.add_artworks.field.choices  %}
+      <label class="inline-block mb-2">Add Artworks</label>
+      <div class="mb-3 scrollable-checkbox p-3 rounded-xl" style="max-height: 250px; overflow-y: auto; background-color: white">
+        {{ form.add_artworks  }}
+      </div>
+    {% endif %}
+
+    {% if form.remove_artworks.field.choices %}
+      <label class="inline-block mb-2">Remove Artworks</label>
+      <div class="mb-3 scrollable-checkbox p-3 rounded-xl" style="max-height: 250px; overflow-y: auto; background-color: white">
+        {{ form.remove_artworks  }}
+      </div>
+    {% endif %}
+
+
+    {% if form.errors or form.non_field_errors %}
+    <div class="mb-3 p-6 bg-red-100">
+      {% for field in form %}
+      {{field.errors}}
+      {% endfor %}
+      {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+    <div class="flex justify-center">
+      <button class="py-4 px-8 text-lg text-white rounded-lg bg-stone-400 hover:bg-stone-500">Submit</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

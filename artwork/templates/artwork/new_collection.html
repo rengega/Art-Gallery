@@ -22,11 +22,12 @@
             {{ form.description }}
         </div>
 
-        <label class="inline-block mb-2">Available Artworks</label>
-        <div class="mb-3 scrollable-checkbox p-3 rounded-xl" style="max-height: 250px; overflow-y: auto; background-color: white">
-            {{ form.artworks  }}
-        </div>
-
+        {% if form.artworks.field.queryset %}
+            <label class="inline-block mb-2">Available Artworks</label>
+            <div class="mb-3 scrollable-checkbox p-3 rounded-xl" style="max-height: 250px; overflow-y: auto; background-color: white">
+                {{ form.artworks  }}
+            </div>
+        {% endif %}
 
 
 

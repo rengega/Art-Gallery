@@ -20,11 +20,11 @@ def logout_view(request):
     logout(request)
     return redirect('/')
 
-def user_profile(request):
+def user_profile(request, pk):
     if request.user.is_authenticated:
-        user = User.objects.get(pk=request.user.pk)
-        my_artworks = artwork_models.Artwork.objects.filter(owner=user)
-        my_collections = artwork_models.Collection.objects.filter(owner=user)
+        user = User.objects.get(pk=pk)
+        my_artworks = artwork_models.Artwork.objects.filter(owner=pk)
+        my_collections = artwork_models.Collection.objects.filter(owner=pk)
         collection_data = []
         for collection in my_collections:
             artworks_for_collection = artwork_models.Artwork.objects.filter(collection=collection)
@@ -36,7 +36,7 @@ def user_profile(request):
             }
             collection_data.append(collection_dict)
 
-        return render(request, 'accounts/profile.html', {'user': user, 'my_artworks': my_artworks, 'my_collections': collection_data})
+        return render(request, 'accounts/profile.html', {'user': user, 'my_artworks': my_artworks, 'my_collections': collection_data, 'pk': pk})
     else:
         return redirect('accounts:login')
 
