@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^nmll=wx=be@z91f!76ebe3i2-%4%-@bba8snn)iet+zh+u^!+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['art-gallery-production-5cb9.up.railway.app']
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
