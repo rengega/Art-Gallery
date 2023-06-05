@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS =[env('CSRF_TRUSTED_ORIGINS')]
+CSRF_TRUSTED_ORIGINS =env('CSRF_TRUSTED_ORIGINS')
 CSRF_COOKIE_DOMAIN = env('CSRF_COOKIE_DOMAIN')
 ROOT_URLCONF = 'art_gallery.urls'
 
