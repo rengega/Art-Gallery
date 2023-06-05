@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^nmll=wx=be@z91f!76ebe3i2-%4%-@bba8snn)iet+zh+u^!+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['art-gallery-production-5cb9.up.railway.app']
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -58,8 +58,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://art-gallery-production-5cb9.up.railway.app']
-CSRF_COOKIE_DOMAIN = 'art-gallery-production-5cb9.up.railway.app'
+#CSRF_TRUSTED_ORIGINS = ['https://art-gallery-production-5cb9.up.railway.app']
+#CSRF_COOKIE_DOMAIN = 'art-gallery-production-5cb9.up.railway.app'
 ROOT_URLCONF = 'art_gallery.urls'
 
 TEMPLATES = [

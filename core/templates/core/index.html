@@ -16,7 +16,7 @@
                         <a href="{% url 'artwork:detail' artworks.0.id %}" class="">
                             <div class="card" style="">
                                 {% if artworks.0.photo %}
-                                <img src="{{ artworks.0.photo.url }}" alt="">
+                                <img src="{{ artworks.0.photo.url }}" alt="" style="height: 800px;  object-fit: cover">
                                 {% else %}
                                 <p>No photo available</p>
                                 {% endif %}
@@ -30,11 +30,11 @@
 
                     {% for artwork in artworks|slice:"1:" %}
 
-                        <div class="carousel-item ">
-                            <a href="{% url 'artwork:detail' artworks.0.id %}" class="">
+                        <div class="carousel-item " >
+                            <a href="{% url 'artwork:detail' artwork.id %}" class="">
                                 <div class="card" style="">
                                     {% if artworks.0.photo %}
-                                    <img src="{{ artwork.photo.url }}" alt="">
+                                    <img src="{{ artwork.photo.url }}" alt="" style="height: 800px; width: 100%; overflow:hidden;">
                                     {% else %}
                                     <p>No photo available</p>
                                     {% endif %}
