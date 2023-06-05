@@ -100,7 +100,7 @@
     <div class="space-x-0 xl:space-x-6 d-flex justify-between items-center">
 
         {% if request.user.is_authenticated %}
-        <div class="d-none d-xl-block ml-20 space-x-5">
+        <div class="d-none d-xl-flex ml-20 space-x-5">
             <a href="{% url 'artwork:new_artwork' %}" class="text-lg font-semibold hover:text-gray-500">+ Artwork</a>
             <a href="{% url 'artwork:new_collection' %}" class="text-lg font-semibold hover:text-gray-500">+ Collection</a>
         </div>
