@@ -54,10 +54,10 @@
         {% endfor %}
     </div>
     {% if collection.owner == request.user %}
-    <div class="flex flex-col sm:flex-row w-100 justify-center mt-12 border-t border-b p-6">
-        <a href="{% url 'artwork:edit_collection' collection.id %}" class="mt-4 sm:mt-0 sm:ml-4 py-4 px-8 text-xl font-bold text-yellow-600 hover:text-yellow-200 bg-yellow-100 hover:bg-yellow-600">EDIT</a>
-        <a class="mt-4 sm:mt-0 sm:ml-4 py-4 px-8 font-bold text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600" data-toggle="modal" data-target="#exampleModalCenter">DELETE</a>
-     <!-- Modal -->
+    <div class="flex w-100 justify-center mt-12 border-t border-b p-6">
+        <a href="{% url 'artwork:edit_collection' collection.id%}" class="ml-4 py-4 px-8 text-xl font-bold text-xl text-yellow-600 hover:text-yellow-200 bg-yellow-100 hover:bg-yellow-600">EDIT</a>
+        <a class="ml-4 py-4 px-8 font-bold text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600" data-toggle="modal" data-target="#exampleModalCenter">DELETE</a>
+        <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -71,10 +71,11 @@
                         Are you sure you're willing to delete this artwork from your library?
                     </div>
                     <div class="modal-footer">
-                        <button   data-dismiss="modal" class="ml-4 py-4 px-8 font-bold text-xl text-teal-600 hover:text-teal-200 bg-teal-100 hover:bg-teal-600">Close</button>
-                        <a href="{% url 'artwork:delete_collection'  pk=collection.id delete_artworks=False %}"  class="ml-4 py-4 px-8 font-bold text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600">DELETE COLLECTION</a>
-                        <a href="{% url 'artwork:delete_collection'  pk=collection.id delete_artworks=True %}"  class="ml-4 py-4 px-8 font-bold text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600">DELETE AND REMOVE ARTWORKS</a>
+                        <button data-dismiss="modal" class="ml-2 sm:ml-4 py-2 sm:py-4 px-4 sm:px-8 font-bold text-base sm:text-xl text-teal-600 hover:text-teal-200 bg-teal-100 hover:bg-teal-600">Close</button>
+                        <a href="{% url 'artwork:delete_collection' pk=collection.id delete_artworks=False %}" class="ml-2 sm:ml-4 py-2 sm:py-4 px-4 sm:px-8 font-bold text-base sm:text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600">DELETE COLLECTION</a>
+                        <a href="{% url 'artwork:delete_collection' pk=collection.id delete_artworks=True %}" class="ml-2 sm:ml-4 py-2 sm:py-4 px-4 sm:px-8 font-bold text-base sm:text-xl text-red-500 hover:text-red-200 bg-red-100 hover:bg-red-600">DELETE AND REMOVE ARTWORKS</a>
                     </div>
+
                 </div>
             </div>
         </div>
