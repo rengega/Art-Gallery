@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-2 flex justify-end">
+                            <div class="col-6 flex justify-end">
                                 {% if user.photo %}
 
                                 <img src="{{ user.photo.url }}" class="h-20" alt="">
@@ -43,7 +43,7 @@
                                 <p>No photo available</p>
                                 {% endif %}
                             </div>
-                            <div class="col-10">
+                            <div class="col-6 ">
                                 <p class="card-text italic text-stone-500">{{ user.username }} </p>
                                 <p class="card-text italic text-stone-500">{{ user.name }} {{ user.surname }} </p>
                                 <p class="card-text italic text-stone-500">{{ user.bio }} </p>
