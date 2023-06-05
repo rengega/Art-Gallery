@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'art_gallery.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('PGDATABASE')'),
+        'NAME': env('PGDATABASE'),
         'USER': env('PGUSER'),
         'PASSWORD': env('PGPASSWORD'),
         'HOST': env('PGHOST'),
