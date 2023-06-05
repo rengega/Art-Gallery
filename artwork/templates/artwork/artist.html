@@ -24,7 +24,7 @@
 {% if artworks %}
   <div class="mt-6 px-6 py-12 bg-gray-100">
     <h1 class="mb-12 text-3xl text-center">Artworks</h1>
-    <div class="grid grid-cols-4 gap-3 justify-center">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 justify-center">
       {% for artwork in artworks %}
       <div>
         <a href="{% url 'artwork:detail' artwork.id %}" class="">
@@ -51,7 +51,7 @@
 {% if related %}
 <div class="mt-6 px-6 py-12 bg-gray-100">
   <h1 class="mb-12 text-3xl text-center">More artists from the era</h1>
-  <div class="grid grid-cols-4 gap-3 justify-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 justify-center">
     {% for artist in related %}
     <div>
       <a href="{% url 'artwork:artist' artist.id %}" class="">

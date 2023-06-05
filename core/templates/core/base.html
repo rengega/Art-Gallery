@@ -13,8 +13,40 @@
 <body>
 
 <nav class="px-6 py-6 flex justify-between items-center  bg-stone-100 border-b border-gray-200">
-    <div class="flex justify-between items-center">
-        <a href="/" class="text-xl font-bold font-montserrat ">
+    <div class="flex justify-start justify-xl-between items-center">
+
+        <div class="d-flex justify-start d-xl-none ml-0 ml-xl-20 space-x-5">
+            <a href="#" class="p-2 font-bold bg-stone-400 text-white hover:bg-stone-500 rounded"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right " aria-labelledby="dropdownMenuButton">
+
+                <div class="dropdown-item flex justify-between items-center">
+                    <form method="GET" action="{% url 'core:search' %}" class="flex justify-center items-center">
+                        <input type="text" name="query" placeholder="Search" class="border border-gray-300 rounded-lg px-4 py-2 mr-2" style="outline: none;">
+                        <button type="submit" class="bg-stone-400 text-white hover:bg-stone-500 font-bold py-2 px-4 rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                        </button>
+                    </form>
+
+                </div>
+
+                <a href="{% url 'artwork:all_artworks' %}" class="dropdown-item px-6 py-3 text-lg font-semibold  hover:bg-stone-100">Artworks</a>
+                <a href="{% url 'artwork:all_artists' %}" class="dropdown-item px-6 py-3 text-lg font-semibold  hover:bg-stone-100">Artists</a>
+                <a href="{% url 'artwork:all_collections' %}" class="dropdown-item px-6 py-3 text-lg font-semibold  hover:bg-stone-100">Collections</a>
+                <a href="{% url 'accounts:all_users' %}" class="dropdown-item px-6 py-3 text-lg font-semibold  hover:bg-stone-100">People</a>
+                <a href="{% url 'artwork:new_artwork' %}" class="dropdown-item px-6 py-3 text-lg font-semibold  hover:bg-stone-100">+ Artwork</a>
+                <a href="{% url 'artwork:new_collection' %}" class="dropdown-item px-6 py-3 text-lg font-semibold  hover:bg-stone-100">+ Collection</a>
+            </div>
+        </div>
+
+
+
+        <a href="/" class="d-none d-xl-block text-xl font-bold font-montserrat ">
             <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" version="1.0" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
                 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
@@ -22,7 +54,7 @@
                 </g>
             </svg>
         </a>
-        <div class="ml-20 space-x-5">
+        <div class="d-none d-xl-block ml-20 space-x-5">
             <a href="{% url 'artwork:all_artworks' %}" class="text-lg font-semibold hover:text-gray-500">Artworks</a>
             <a href="{% url 'artwork:all_artists' %}" class="text-lg font-semibold hover:text-gray-500">Artists</a>
             <a href="{% url 'artwork:all_collections' %}" class="text-lg font-semibold hover:text-gray-500">Collections</a>
@@ -33,7 +65,7 @@
 
     {% if request.user.is_authenticated %}
 
-    <div class="flex justify-between items-center">
+    <div class="d-none d-xl-flex justify-between items-center">
         <form method="GET" action="{% url 'core:search' %}" class="flex justify-center items-center">
             <input type="text" name="query" placeholder="Search" class="border border-gray-300 rounded-lg px-4 py-2 mr-2" style="outline: none;">
             <button type="submit" class="bg-stone-400 text-white hover:bg-stone-500 font-bold py-2 px-4 rounded">
@@ -47,12 +79,24 @@
 
     {% endif %}
 
-    <div class="space-x-6 flex justify-between items-center">
+    <div class="d-flex justify-center d-xl-none  space-x-5">
+        <a href="/" class="text-xl font-bold font-montserrat ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" version="1.0" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+
+                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                    <path d="M0 2560 l0 -2560 2560 0 2560 0 0 2560 0 2560 -2560 0 -2560 0 0 -2560z m1610 1755 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z m1600 -550 l0 -1055 -650 0 -650 0 0 1055 0 1055 650 0 650 0 0 -1055z m1610 -550 l0 -1605 -655 0 -655 0 0 1605 0 1605 655 0 655 0 0 -1605z m-3210 -655 l0 -950 -655 0 -655 0 0 950 0 950 655 0 655 0 0 -950z m1600 -1205 l0 -1055 -650 0 -650 0 0 1055 0 1055 650 0 650 0 0 -1055z m-1600 -550 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z m3210 0 l0 -505 -655 0 -655 0 0 505 0 505 655 0 655 0 0 -505z"/>
+                </g>
+            </svg>
+        </a>
+    </div>
+
+    <div class="space-x-6 sm:space-x-0 flex justify-between items-center">
 
         {% if request.user.is_authenticated %}
-        <a href="{% url 'artwork:new_artwork' %}" class="text-lg font-semibold hover:text-gray-500">+ Artwork</a>
-        <a href="{% url 'artwork:new_collection' %}" class="text-lg font-semibold hover:text-gray-500">+ Collection</a>
-
+        <div class="d-none d-xl-block ml-20 space-x-5">
+            <a href="{% url 'artwork:new_artwork' %}" class="text-lg font-semibold hover:text-gray-500">+ Artwork</a>
+            <a href="{% url 'artwork:new_collection' %}" class="text-lg font-semibold hover:text-gray-500">+ Collection</a>
+        </div>
         {% endif %}
 
         <div class="dropdown">
@@ -89,8 +133,8 @@
 <!-------------------------------------------------------------------------------------------------->
 
 
-<footer class="py-6 px-6 flex justify-between  bg-stone-100  border-b border-t border-gray-200">
-    <div class="w-2/3 flex flex-col items-center">
+<footer class="py-6 px-6 flex justify-center  bg-stone-100  border-b border-t border-gray-200">
+    <div class="w-2/3 d-none d-lg-flex flex-col items-center">
         <h3 class="mb-3 font-semibold text-center">About</h3>
         <p>ArtGallery is the space for art lovers to share their collections and explore others</p>
     </div>

@@ -22,7 +22,7 @@
 
 <div class="mt-6 px-6 py-12 bg-gray-100">
     <h1 class="mb-12 text-3xl text-center">Collections</h1>
-    <div class="grid grid-cols-3 gap-3 justify-center">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 justify-center">
         {% for collection in collections %}
         <div>
             <a href="{% url 'artwork:collection' collection.collection.id %}" class="">
@@ -33,11 +33,11 @@
                             {% for artwork in collection.artworks %}
                             {% if forloop.first %}
                             <div class="carousel-item active " style="height: 300px; width: 100%; overflow:hidden;">
-                                <img class="d-block w-100"src="{{ artwork.photo.url }}" alt="First slide" >
+                                <img class="d-block w-100"src="{{ artwork.photo.url }}" alt="First slide" style="position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%);">
                             </div>
                             {% else %}
                             <div class="carousel-item" style="height: 300px; width: 100%; overflow:hidden;">
-                                <img class="d-block w-100" src="{{ artwork.photo.url }}" alt="Slide">
+                                <img class="d-block w-100" src="{{ artwork.photo.url }}" alt="Slide" style="position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%);">
                             </div>
                             {% endif %}
                             {% endfor %}

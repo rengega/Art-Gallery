@@ -5,22 +5,23 @@ Search Results
 {% endblock %}
 
 {% block content %}
-<h1>SEARCH RESULTS FOR : {{results.query}}</h1>
+<h1 class="text-3xl text-center mb-6">SEARCH RESULTS FOR: {{ results.query }}</h1>
+
 <div class="mt-6 px-6 py-12 bg-gray-100">
   <h1 class="mb-12 text-3xl text-center">Artists</h1>
   {% if results.artists %}
-  <div class="grid grid-cols-4 gap-3 justify-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 justify-center">
     {% for artist in results.artists %}
     <div>
       <a href="{% url 'artwork:artist' artist.id %}" class="">
-        <div class="card" style="">
+        <div class="card">
           {% if artist.photo %}
-          <img src="{{ artist.photo.url }}" alt="">
+          <img src="{{ artist.photo.url }}" alt="" class="w-full">
           {% else %}
           <p>No photo available</p>
           {% endif %}
           <div class="card-body p-6 bg-white">
-            <p class="card-text italic text-stone-500">{{ artist.name }}, {{ artist.surname }} </p>
+            <p class="card-text italic text-stone-500">{{ artist.name }}, {{ artist.surname }}</p>
           </div>
         </div>
       </a>
@@ -28,56 +29,55 @@ Search Results
     {% endfor %}
   </div>
   {% else %}
-    <p>No artists found :(</p>
-    {% endif %}
-
+  <p>No artists found :(</p>
+  {% endif %}
 </div>
 
 <div class="mt-6 px-6 py-12 bg-gray-100">
-  <h1 class="mb-12 text-3xl text-center">Artworks </h1>
+  <h1 class="mb-12 text-3xl text-center">Artworks</h1>
   {% if results.artworks %}
-  <div class="grid grid-cols-3 gap-3 justify-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 justify-center">
     {% for artwork in results.artworks %}
     <div>
       <a href="{% url 'artwork:detail' artwork.id %}" class="">
-        <div class="card" style="">
+        <div class="card">
           {% if artwork.photo %}
-          <img src="{{ artwork.photo.url }}" alt="">
+          <img src="{{ artwork.photo.url }}" alt="" class="w-full">
           {% else %}
           <p>No photo available</p>
           {% endif %}
           <div class="card-body p-6 bg-white">
-            <p class="card-text italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }} </p>
+            <p class="card-text italic text-stone-500">{{ artwork.title }}, {{ artwork.artist }}</p>
           </div>
         </div>
       </a>
     </div>
     {% endfor %}
   </div>
-    {% else %}
-        <p>No artworks found :(</p>
-        {% endif %}
+  {% else %}
+  <p>No artworks found :(</p>
+  {% endif %}
 </div>
 
 <div class="mt-6 px-6 py-12 bg-gray-100">
   <h1 class="mb-12 text-3xl text-center">Collections</h1>
   {% if results.collections %}
-  <div class="grid grid-cols-3 gap-3 justify-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 justify-center">
     {% for collection in results.collections %}
     <div>
       <a href="{% url 'artwork:collection' collection.collection.id %}" class="">
-        <div class="card" style="">
+        <div class="card">
           {% if collection.artworks %}
           <div id="carouselExampleControls{{ collection.collection.id }}" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
               {% for artwork in collection.artworks %}
               {% if forloop.first %}
-              <div class="carousel-item active" style="height: 300px; width: 100%; overflow:hidden;">
-                <img class="d-block w-100" src="{{ artwork.photo.url }}" alt="First slide">
+              <div class="carousel-item active" style="height: 300px; width: 100%; overflow: hidden;">
+                <img class="d-block w-full" src="{{ artwork.photo.url }}" alt="First slide">
               </div>
               {% else %}
-              <div class="carousel-item" style="height: 300px; width: 100%; overflow:hidden;">
-                <img class="d-block w-100" src="{{ artwork.photo.url }}" alt="Slide">
+              <div class="carousel-item" style="height: 300px; width: 100%; overflow: hidden;">
+                <img class="d-block w-full" src="{{ artwork.photo.url }}" alt="Slide">
               </div>
               {% endif %}
               {% endfor %}
@@ -103,34 +103,31 @@ Search Results
     </div>
     {% endfor %}
   </div>
-    {% else %}
-
-    <p>No collections found :(</p>
-    {% endif %}
-
+  {% else %}
+  <p>No collections found :(</p>
+  {% endif %}
 </div>
-
 
 <div class="mt-6 px-6 py-12 bg-gray-100">
   <h1 class="mb-12 text-3xl text-center">People</h1>
   {% if results.users %}
-  <div class="grid grid-cols-1 w-100">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
     {% for user in results.users %}
     <div>
       <a href="{% url 'accounts:my_profile' user.id %}" class="">
         <div class="card">
           <div class="card-body">
-            <div class="row">
-              <div class="col-4 flex justify-center">
+            <div class="flex">
+              <div class="mr-4">
                 {% if user.photo %}
                 <img src="{{ user.photo.url }}" class="h-20" alt="">
                 {% else %}
                 <p>No photo available</p>
                 {% endif %}
               </div>
-              <div class="col-8">
-                <p class="card-text italic text-stone-500">{{ user.name }}, {{ user.surname }} </p>
-                <p class="card-text italic text-stone-500">{{ user.bio }} </p>
+              <div>
+                <p class="card-text italic text-stone-500">{{ user.name }}, {{ user.surname }}</p>
+                <p class="card-text italic text-stone-500">{{ user.bio }}</p>
               </div>
             </div>
           </div>
@@ -139,14 +136,13 @@ Search Results
     </div>
     {% endfor %}
   </div>
-    {% else %}
-    <p>No users found :(</p>
-    {% endif %}
+  {% else %}
+  <p>No users found :(</p>
+  {% endif %}
 </div>
 
-  <div class="flex justify-center mt-12">
-    <a href="#" class=" p-2 text-lg bg-stone-400 text-white hover:bg-stone-500 rounded-3xl">Top</a>
-  </div>
+<div class="flex justify-center mt-12">
+  <a href="#" class="p-2 text-lg bg-stone-400 text-white hover:bg-stone-500 rounded-3xl">Top</a>
 </div>
-
+</div>
 {% endblock %}

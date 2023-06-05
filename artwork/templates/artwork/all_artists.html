@@ -25,13 +25,16 @@
 
 <div class="mt-6 px-6 py-12 bg-gray-100">
   <h1 class="mb-12 text-3xl text-center">Artists</h1>
-  <div class="grid grid-cols-4 gap-3 justify-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 justify-center">
     {% for artist in artists %}
     <div>
       <a href="{% url 'artwork:artist' artist.id %}" class="">
         <div class="card" style="">
           {% if artist.photo %}
-          <img src="{{ artist.photo.url }}" alt="">
+          <div style="max-height: 300px ;width: 100%; overflow: clip ">
+            <img src="{{ artist.photo.url }}" alt="" >
+
+          </div>
           {% else %}
           <p>No photo available</p>
           {% endif %}
